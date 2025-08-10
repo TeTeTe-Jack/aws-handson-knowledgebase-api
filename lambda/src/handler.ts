@@ -45,8 +45,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     });
 
     const response = await client.send(command);
-
-    console.debug(response)
+    console.debug(JSON.stringify(response))
 
     return {
       statusCode: 200,

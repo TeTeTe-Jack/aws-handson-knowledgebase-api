@@ -2,6 +2,7 @@
 
 このプロジェクトは、Amazon Bedrock Knowledge Base を活用した API サービスのハンズオン用リポジトリです。  
 API Gateway、Lambda、S3、OpenSearch Service などを連携し、ナレッジベース検索を実装します。
+紹介記事：[RAG構成で実現！Bedrockナレッジベースを活用した生成AI APIの作り方 -CloudFormationテンプレート付き-](https://tetete-home.com/article/1250)
 
 ---
 
@@ -78,6 +79,7 @@ npm install
 |---|---
 |npm run build|TypeScript のビルド|
 |npm run zip|TypeScript のビルド後にzip化|
+|npm run upload|zip化したソースコードをS3にアップロード|
 |npm run deploy|AWS へのデプロイ（CloudFormationでリソース配備）|
 |npm run sync|Knowledge Baseの同期|
 |npm run test|デプロイしたAPIのテスト|
