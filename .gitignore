@@ -1,0 +1,25 @@
+# Node.js
+node_modules/
+
+# TypeScript
+dist/
+lambda/kb-api.zip
+
+# Environment variables
+.env
+
+# IDE/Editor files
+.vscode/
+
+# OS/Terminal files
+*.swp
+*.swo
+*.bak
+
+# Optional: coverage or test output
+coverage/
+
+# Optional: temporary files
+tmp/
+temp/
+*.tmp

@@ -1,0 +1,32 @@
+{
+  "name": "aws-handson-kb-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "esbuild lambda/src/handler.ts --bundle --platform=node --target=node22 --outdir=lambda/dist --sourcemap",
+    "zip": "npm run build && cd lambda && zip -r kb-api.zip dist",
+    "upload": "ts-node scripts/upload.ts",
+    "deploy": "ts-node scripts/deploy.ts",
+    "sync": "ts-node scripts/sync.ts",
+    "test": "ts-node scripts/test.ts",
+    "update": "ts-node scripts/update.ts",
+    "delete": "ts-node scripts/delete.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@aws-sdk/client-bedrock-agent-runtime": "^3.848.0",
+    "@aws-sdk/client-s3": "^3.850.0",
+    "@types/aws-lambda": "^8.10.152",
+    "@types/node": "^24.1.0",
+    "@types/readline-sync": "^1.4.8",
+    "dotenv": "^17.2.0",
+    "esbuild": "^0.25.8",
+    "fs": "^0.0.1-security",
+    "inquirer": "^12.8.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  }
+}
