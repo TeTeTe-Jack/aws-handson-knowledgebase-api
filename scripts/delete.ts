@@ -1,4 +1,4 @@
-require('dotenv').config();
+import { requireParam } from './params';
 
 const cfnDelete = () => {
   try {
@@ -14,10 +14,6 @@ const cfnDelete = () => {
   }
 }
 
-const prjName = process.env.PROJECT_NAME;
-if (!prjName) {
-    console.error("PROJECT_NAME is not defined in .env");
-    process.exit(1);
-}
+const prjName = requireParam('Prefix');
 
-cfnDelete()
+cfnDelete();
