@@ -6,7 +6,7 @@ dist/
 lambda/kb-api.zip
 
 # Environment variables
-.env
+cfn/parameters.json
 
 # IDE/Editor files
 .vscode/

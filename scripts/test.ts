@@ -1,12 +1,12 @@
-require('dotenv').config();
+import { requireParam } from './params';
 
-const queryApi = async () => {
+const queryApi = async (question: string) => {
     try {
         const headers: Record<string, string> = {
             "Content-Type": "application/json",
         };
         const body = {
-            q: "AWSをこれから使い始めます。まずはどの資格から取得するのがいいですか？",
+            q: question,
         };
         const response = await fetch(endpoint, {
             method: "POST",
@@ -18,6 +18,8 @@ const queryApi = async () => {
             throw new Error(`HTTP ${response.status} ${response.statusText} ${text}`);
         }
         const data = (await response.json()) ;
+        console.log("✅ API request:");
+        console.log(JSON.stringify(body, null, 2));
         console.log("✅ API response:");
         console.log(JSON.stringify(data, null, 2));
     } catch (err: any) {
@@ -60,13 +62,15 @@ const getStackOutput = () => {
 }
 
 
-const prjName = process.env.PROJECT_NAME;
-if (!prjName) {
-    console.error("PROJECT_NAME is not defined in .env");
-    process.exit(1);
-}
+const prjName = requireParam('Prefix');
 
 const outputs = getStackOutput()
 const endpoint = outputs!.filter((o) => o.OutputKey === 'ApiEndpoint')[0].OutputValue || ''
 
-queryApi()
+const main = async () => {
+  await queryApi("AWSをこれから使い始めます。まずはどの資格から取得するのがいいですか？");
+  await queryApi("SAAの正式名称は？");
+  await queryApi("AWS Certified Generative AI Developer - Professionalの試験範囲を教えてください。");
+}
+
+main();
