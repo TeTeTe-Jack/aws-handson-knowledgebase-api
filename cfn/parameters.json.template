@@ -1,0 +1,42 @@
+[
+    {
+        "ParameterKey": "Prefix",
+        "ParameterValue": "my-kb-project"
+    },
+    {
+        "ParameterKey": "LambdaSourceBucketName",
+        "ParameterValue": "my-kb-deploy-bucket"
+    },
+    {
+        "ParameterKey": "LambdaSourceKey",
+        "ParameterValue": "kb-api/kb-api.zip"
+    },
+    {
+        "ParameterKey": "KnowledgeBaseBucketName",
+        "ParameterValue": "my-kb-manual-bucket"
+    },
+    {
+        "ParameterKey": "KnowledgeBasePrefix",
+        "ParameterValue": "manual/"
+    },
+    {
+        "ParameterKey": "EmbeddingModel",
+        "ParameterValue": "amazon.titan-embed-text-v2:0"
+    },
+    {
+        "ParameterKey": "GenerationModelIdOrInferenceProfile",
+        "ParameterValue": "global.anthropic.claude-haiku-4-5-20251001-v1:0"
+    },
+    {
+        "ParameterKey": "AvailabilityZoneCount",
+        "ParameterValue": "1"
+    },
+    {
+        "ParameterKey": "OpenSearchServerlessMultiAZMode",
+        "ParameterValue": "OFF"
+    },
+    {
+        "ParameterKey": "LogRetentionInDays",
+        "ParameterValue": "7"
+    }
+]

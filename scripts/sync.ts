@@ -1,4 +1,4 @@
-require('dotenv').config();
+import { requireParam } from './params';
 
 const sleep = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -51,11 +51,7 @@ const syncKnowledgeBase = (kbId: string, dsId: string) => {
   }
 }
 
-const prjName = process.env.PROJECT_NAME;
-if (!prjName) {
-    console.error("PROJECT_NAME is not defined in .env");
-    process.exit(1);
-}
+const prjName = requireParam('Prefix');
 
 const outputs = getStackOutput()
 const kbId = outputs!.filter((o) => o.OutputKey === 'KnowledgeBaseId')[0].OutputValue

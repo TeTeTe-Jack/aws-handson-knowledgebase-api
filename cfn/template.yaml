@@ -43,19 +43,18 @@ Parameters:
   EmbeddingModel:
     Type: String
     Description: Embedding Model for Knowledge base
-    Default: "amazon.titan-embed-text-v1"
-    AllowedValues: ["amazon.titan-embed-text-v1"]
+    Default: "amazon.titan-embed-text-v2:0"
+    AllowedValues: ["amazon.titan-embed-text-v2:0"]
+
+  GenerationModelIdOrInferenceProfile:
+    Type: String
+    Description: Bedrock inference profile ID for RetrieveAndGenerate (e.g., global.anthropic.claude-haiku-4-5-20251001-v1:0)
 
   LogRetentionInDays:
     Type: Number
     Description: Log retention period in days (e.g., 7)
     Default: "7"
     MinValue: "1"
-
-  SetupUserArn:
-    Type: String
-    Description: IAM Resouce ARN of Setup User
-    Default: ""
 
 # -------------------------------
 # Conditions
@@ -369,14 +368,14 @@ Resources:
         Properties: 
           kb-vector-field: 
             Type: knn_vector
-            Dimension: 1536
+            Dimension: 1024
             Method:
               Name: hnsw
               Engine: faiss
               Parameters:
                 M: 16
                 EfConstruction: 512
-              SpaceType: l2
+              SpaceType: cosinesimil
           AMAZON_BEDROCK_METADATA:
             Type: text
             Index: false
@@ -440,7 +439,7 @@ Resources:
               ],
               "Principal":[
                 "${BedrockExecutionRole.Arn}",
-                "${SetupUserArn}"
+                "arn:aws:iam::${AWS::AccountId}:root"
               ]
             }
           ]
@@ -543,7 +542,7 @@ Resources:
           ChunkingStrategy: FIXED_SIZE
           FixedSizeChunkingConfiguration:
             MaxTokens: 500
-            OverlapPercentage: 10
+            OverlapPercentage: 20
         
 
 # 5. Lambda(Function + LogGroup + Env Vars)
@@ -569,9 +568,9 @@ Resources:
       Code:
         S3Bucket: !Ref LambdaSourceBucketName
         S3Key: !Ref LambdaSourceKey
-      Handler: ./dist/handler.handler
+      Handler: ./lambda/dist/handler.handler
       Role: !GetAtt LambdaExecutionRole.Arn
-      Runtime: nodejs22.x
+      Runtime: nodejs24.x
       Timeout: 25
       VpcConfig:
         SecurityGroupIds:
@@ -582,14 +581,14 @@ Resources:
           - !If [UseAZ3, !Ref PrivateSubnet3, !Ref "AWS::NoValue"]
       Environment:
         Variables:
-          FOUNDATION_MODEL_ID: "anthropic.claude-3-haiku-20240307-v1:0"
+          FOUNDATION_MODEL_ID: !Ref GenerationModelIdOrInferenceProfile
           KNOWLEDGE_BASE_ID: !Ref KnowledgeBase
 
   WaitFnForOpenSearchIndex:
     Type: AWS::Lambda::Function
     Properties:
       FunctionName: !Sub '${Prefix}-waitfn'
-      Runtime: nodejs22.x
+      Runtime: nodejs24.x
       Handler: index.handler
       Role: !GetAtt WaitFnRole.Arn
       Timeout: 60

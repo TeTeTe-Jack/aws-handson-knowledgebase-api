@@ -1,4 +1,4 @@
-require('dotenv').config();
+import { requireParam } from './params';
 
 const updateLambdaCode = () => {
   try {
@@ -14,22 +14,8 @@ const updateLambdaCode = () => {
   }
 }
 
-const prjName = process.env.PROJECT_NAME;
-if (!prjName) {
-    console.error("PROJECT_NAME is not defined in .env");
-    process.exit(1);
-}
+const prjName = requireParam('Prefix');
+const lambdaSourceBucket = requireParam('LambdaSourceBucketName');
+const souceKey = requireParam('LambdaSourceKey');
 
-const lambdaSourceBucket = process.env.DEPLOY_BUCKET;
-if (!lambdaSourceBucket) {
-    console.error("DEPLOY_BUCKET is not defined in .env");
-    process.exit(1);
-}
-
-const souceKey = process.env.LAMBDA_SOURCE_ZIP_KEY;
-if (!souceKey) {
-    console.error("LAMBDA_SOURCE_ZIP_KEY is not defined in .env");
-    process.exit(1);
-}
-
-updateLambdaCode()
+updateLambdaCode();
