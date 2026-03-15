@@ -36,13 +36,13 @@ API Gateway、Lambda、S3、OpenSearch Service などを連携し、ナレッジ
 | LambdaSecurityGroup | AWS::EC2::SecurityGroup | Lambda 側の SG | - |
 | LambdaExecutionRole | AWS::IAM::Role | メイン Lambda 実行ロール | - |
 | BedrockExecutionRole | AWS::IAM::Role | Knowledge Base 実行ロール | EmbeddingModel |
-| WaitFnRole | AWS::IAM::Role | インデックス待機 Lambda 用ロール | CloudFormationと実際の作成完了のタイミング異なるため、一定期間待機する処理を追加 |
+| WaitFnRole | AWS::IAM::Role | インデックス待機 Lambda 用ロール | - |
 | OpenSearchCollection | AWS::OpenSearchServerless::Collection | ベクトル検索用コレクション | OpenSearchServerlessMultiAZMode |
 | OpenSearchIndex | AWS::OpenSearchServerless::Index | ベクトルインデックス（`knn_vector`） | EmbeddingModel（次元整合） |
 | OpenSearchAccessPolicy | AWS::OpenSearchServerless::AccessPolicy | Bedrock実行ロール向けアクセス制御 | - |
 | OpenSearchEncryptionPolicy | AWS::OpenSearchServerless::SecurityPolicy | コレクション暗号化設定 | - |
 | OpenSearchNetworkPolicy | AWS::OpenSearchServerless::SecurityPolicy | ネットワーク公開設定 | - |
-| WaitForIndexReady | AWS::CloudFormation::CustomResource | OpenSearch インデックス準備待ち | - |
+| WaitForIndexReady | AWS::CloudFormation::CustomResource | OpenSearch インデックス準備待ち。CloudFormationと実際の作成完了のタイミング異なるため、一定期間待機する処理を追加。 | - |
 | KnowledgeBase | AWS::Bedrock::KnowledgeBase | Bedrock Knowledge Base 本体 | EmbeddingModel |
 | KnowledgeBaseDataSource | AWS::Bedrock::DataSource | S3 データソース設定 | KnowledgeBaseBucketName / KnowledgeBasePrefix |
 | LambdaFunction | AWS::Lambda::Function | API 本体（RetrieveAndGenerate 実行） | LambdaSourceBucketName / LambdaSourceKey |
